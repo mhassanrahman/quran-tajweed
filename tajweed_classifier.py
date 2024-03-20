@@ -9,7 +9,6 @@ import unicodedata
 
 RangeAttributes = namedtuple("Attributes", "start end attributes")
 
-
 def attributes_for(rule, txt, i, include_this=True, auxiliary_stream=None):
     # Determine bounds of this letter.
     start_i = i
@@ -254,7 +253,6 @@ def attributes_for(rule, txt, i, include_this=True, auxiliary_stream=None):
 
     return RangeAttributes(start_i, end_i, res)
 
-
 def exemplars_for(rule, txt, auxiliary_stream=None):
     context_size_map = {
         "ghunnah": (3, 1),
@@ -332,7 +330,6 @@ def exemplars_for(rule, txt, auxiliary_stream=None):
 
         yield Exemplar(None, attr_full, 1)
 
-
 def run_tree(tree, exemplar):
     while not hasattr(tree, "label"):
         if exemplar.attributes.get(tree.attribute, -1) >= tree.value:
@@ -340,7 +337,6 @@ def run_tree(tree, exemplar):
         else:
             tree = tree.lt
     return tree.label
-
 
 def label_ayah(params):
     surah, ayah, text, rule_trees = params  # Multiprocessing...
@@ -403,7 +399,6 @@ def label_ayah(params):
         "annotations": sorted(annotations, key=lambda x: x["start"])
     }
 
-
 if __name__ == "__main__":
     # Load rules from incredibly high-tech datastore.
     rule_trees = {}
@@ -418,7 +413,12 @@ if __name__ == "__main__":
 
     # Read in text to classify
     tasks = []
-    for line in sys.stdin:
+    file = open("quran-simple-1.txt", encoding="utf8")
+    text = file.read()
+    print(text)
+    lines = text.split("\n")
+
+    for line in lines:
         line = line.split("|")
         if len(line) != 3:
             continue
